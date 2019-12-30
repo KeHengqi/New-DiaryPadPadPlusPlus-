@@ -241,9 +241,11 @@ html {
     box-shadow: 0px 2px 5px dimgray;
     margin: 0 auto;
     margin-top: 60px;
-    height: 600px;
+    /*height: 600px;*/
     width: 100%;
     padding-left: 10%;
+    margin-bottom: 10%;
+    padding-bottom: 10%;
     font-family: 'Noto Serif SC', serif;
 }
 
@@ -271,11 +273,9 @@ html {
 
 #content {
     padding-top: 60px;
-    overflow-y: scroll;
     padding-right: 10%;
 }
 
-#content::-webkit-scrollbar{display: none}
 
 #article-title {
     font-size: 40px;

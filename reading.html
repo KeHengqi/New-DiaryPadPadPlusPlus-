@@ -36,9 +36,30 @@
     <link href="./css/scrollbar-and-selection.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="./animate.css/animate.min.css">
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+TC|Noto+Serif+TC&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="./js/marked.min.js"></script>
+    <script>$(".dropdown-button").dropdown();</script>
     <script type="text/javascript">
         $(document).ready(function () {
+            $('.button-collapse').sideNav();
+            $.post('./php/iflogin.php',{},function (data) {
+                if(data==0){
+                    $(".login").show();
+                    $(".mine").hide();
+                    //$(".mine").attr("class","login");
+                    $(".logout").hide();
+                    //window.alert("It seems that you haven't login...");
+                }
+                else{
+                    $(".login").hide();
+                    $(".mine").show();
+                    $(".logout").show();
+                    //window.location.href="editor.html";
+                }
+            });
+
+
+
             var content = $("#content").text();
             $.post('php/getArticle.php', { content: content }, function (data) {
                 if (data) {
@@ -59,15 +80,16 @@
                 }
             });
 
-            $(".brand-logo").click(function () {
-                $.post('php/iflogin.php', {}, function (data) {
-                    if (data == 1) {
-                        window.location.href = "main-page.html";
-                        window.alert("You have login!");
-                    } else {
-                        window.location.href = "login.html";
+            $("#logout-button").click(function () {
+                $.post('./php/logout.php',{},function (data) {
+                    if(data==1){
+                        window.alert("You have logged out!");
+                        window.location.href="login.html";
                     }
-                })
+                    else{
+                        window.alert("The system is like shit!");
+                    }
+                });
             });
 
         });
@@ -76,16 +98,19 @@
 
 <body>
 <ul id="ddown" class="dropdown-content">
-    <li>
-        <a href="./user-interface.html" style="color: #00b0ff;">My place</a>
+    <li class="mine">
+        <a class="mine" href="./user-interface.html" style="color: #00b0ff;">My place</a>
     </li>
-    <li>
-        <a id="logout-button" href="#" style="color: #00b0ff;">Logout</a>
+    <li class="login" hidden>
+        <a class="login" href="login.html">Login</a>
+    </li>
+    <li class="logout">
+        <a class="logout-button" id="logout-button" href="#" style="color: #00b0ff;">Logout</a>
     </li>
 </ul>
 <nav>
     <div class="nav-wrapper light-blue accent-3">
-        <a href="login.html" class="brand-logo">
+        <a class="brand-logo">
             <div style="background-image: url('./img/logo3.png'); background-size: contain; width: 50px; height: 50px; margin-left: 20px; margin-top: 7px;"></div>
         </a>
         <a href="#" data-activates="mobile" class="button-collapse"><i class="material-icons">menu</i></a>
@@ -110,7 +135,8 @@
             </div>
             <li><a href="main-page.html">Main page</a></li>
             <li><a id="edit" href="./editor.html">Edit your article</a></li>
-            <li><a href="./user-interface.html">My place</a></li>
+            <li class="mine"><a href="./user-interface.html">My place</a></li>
+            <li><a class="login">Login</a> </li>
             <li><a id="sidebar-logout-button">Logout</a></li>
         </ul>
     </div>
