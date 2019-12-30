@@ -9,7 +9,7 @@ if($connection->connect_error){
     echo "Error: " . $connection->connect_error . "\n";
     exit;
 }
-$query = "SELECT AID,CONTENT FROM article where UNAME = '$user' ORDER BY AID DESC";
+$query = "SELECT AID,CONTENT,TITLE FROM article where UNAME = '$user' ORDER BY AID DESC";
 $result = $connection->query($query);
 $num = $connection->affected_rows;
 $i=$num;

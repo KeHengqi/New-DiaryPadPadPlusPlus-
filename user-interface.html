@@ -38,13 +38,14 @@
             let flag = 0;
             $.post('./php/getInformation.php',{},function (data) {
                 $(".user-name").text(data);
+                $("#sidebar-username").text(data);
             });
 
             $.post('./php/getArticleNum.php',{},function (data) {
                 var i = 1;
                 var ht = "<div class=\"release-articles-base z-depth-2\" id=\"release-article-"
                 var m = "\" data-releasearticleid=\""
-                var l = "\"></div>"
+                var l = "\"><div class=\"title\"></div><div class=\"content\"></div></div>"
                 var number = data;
                if(data>0){
                    flag=1;
@@ -71,7 +72,22 @@
                            $(whole).addClass("Canclick");
                            $(whole).data('releasearticleid',data[i].AID);
                            //window.alert($(whole).data('releasearticleid'));
-                           $(whole).html(ml);
+                           var ti = whole+" .title";
+                           if(data[i].TITLE!="") {
+                               $(ti).html("<h4>"+data[i].TITLE+"</h4>");
+                           }
+                           else{
+                               $(ti).html("<h4>No Title</h4>");
+                           }
+                           var co = whole+" .content";
+                           $(co).html(ml);
+                           var tent = $(co).text();
+                           var real = tent.substr(0,200);
+                           if(tent.length>200){
+                               real+="&nbsp;&nbsp;&nbsp;. . . . . .";
+                           }
+                           $(co).html("<p>"+real+"</p>");
+                           ///$('#ddd .title')          //useful thing!!!!!!!1
                        }
                    },'json');
                }
@@ -132,7 +148,7 @@
 </ul>
 <nav>
     <div class="nav-wrapper light-blue accent-3">
-        <a href="login.html" class="brand-logo">
+        <a class="brand-logo">
             <div style="background-image: url('./img/logo3.png'); background-size: contain; width: 50px; height: 50px; margin-left: 20px; margin-top: 7px;"></div>
         </a>
         <a href="#" data-activates="mobile" class="button-collapse"><i class="material-icons">menu</i></a>
@@ -207,6 +223,7 @@
         <!--data-releasearticleid对应的是文章在数据库中的编号.id是为了方便js获取元素而存在的-->
         <!--文章内容直接放在每一个div中的-->
         <div class="release-articles-base z-depth-2" id="release-article-1" data-releasearticleid="">
+            <div class="title"></div><div class="content"></div>
         </div>
     </div>
 

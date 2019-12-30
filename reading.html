@@ -80,6 +80,16 @@
                 }
             });
 
+            $.post('./php/getTitle.php',{},function (data) {
+                //window.alert(data);
+                if(!data){
+                    $("#article-title").text("No Title");
+                }
+                else{
+                    $("#article-title").text(data);
+                }
+            })
+
             $("#logout-button").click(function () {
                 $.post('./php/logout.php',{},function (data) {
                     if(data==1){
@@ -145,11 +155,11 @@
 
 <div class="container">
     <div id="content">
-        <div id="article-title">The title</div>
+        <div id="article-title"></div>
         <div id="article-author">
             <i class="fa fa-pencil-square-o" style="line-height: 50px;"></i>
             <span id="author">
-                The author
+
             </span>
         </div>
     </div>
