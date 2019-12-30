@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Register</title>
+    <link rel="stylesheet" href="./materialize/css/materialize.min.css">
+    <link rel="stylesheet" href="./css/register.css">
+    <link href="./font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">>
+    <script src="./js/jquery-3.4.1.min.js"></script>
+    <script src="./js/jquery.backstretch.min.js"></script>
+    <script src="./js/login-script.js"></script>
+    <script src="./materialize/js/materialize.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#registerButton").click(function () {
+                var user = $("#user-name").val();
+                var pass = $("#password").val();
+                if (user == "" || user == null || pass == null || pass == "") {
+                    if (user == "" || user == null) {
+                        Materialize.toast("Username or email can't be empty!", 5000);
+                        $("#user-name").attr("data-tooltip", "Username or email can't be empty!");
+                        //$("#erroruser").text("Username/Email can't be empty!");
+                    }
+                    if (pass == "" || pass == null) {
+                        Materialize.toast("Password can't be empty!", 5000);
+                        //$("#errorpass").text("Password can't be empty!");
+                    }
+                } else {
+                    window.location.href = "main-page.html";
+                }
+            });
+        });
+
+    </script>
+
+</head>
+
+<body>
+    <div id="register-form-container" class="z-depth-5">
+        <div id="icon-container">
+            <img src="./img/bird.jpg" class="responsive-img circle" alt="user-icon">
+        </div>
+
+        <div class="row">
+            <form class="col s12">
+                <div class="row">
+                    <div class="input-field col s12">
+                        <i class="fa fa-user-circle-o prefix"></i>
+                        <input type="text" id="user-name" class="validate tooltipped" data-position="right"
+                            data-delay="50" data-tooltip="Please input username">
+                        <label for="user-name">User name/Email</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <i class="fa fa-lock prefix"></i>
+                        <input type="text" id="password" class="validate tooltipped" data-position="right"
+                            data-delay="50" data-tooltip="Please input password">
+                        <label for="password">Password</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <a class="waves-effect waves-light btn col s12 cyan" value="Register" id="registerButton">Register Now!</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

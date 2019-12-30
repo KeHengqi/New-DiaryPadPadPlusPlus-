@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>User Interface</title>
+    <script>
+        window.addEventListener('pageshow', function (event) {
+            if (event.persisted) {
+                location.reload();
+            } else {
+                if (sessionStorage.getItem('refresh') === 'true') {
+                    location.reload();
+                }
+            }
+            sessionStorage.removeItem('refresh');
+        }); 
+    </script>
+    <link rel="stylesheet" href="./css/user-interface-style.css">
+    <link rel="stylesheet" href="./materialize/css/materialize.min.css">
+    <link rel="stylesheet" href="./animate.css/animate.min.css">
+    <link rel="stylesheet" href="./css/scrollbar-and-selection.css">
+    <script src="./js/jquery-3.4.1.min.js"></script>
+    <script src="./materialize/js/materialize.min.js"></script>
+    <script src="./js/wow.min.js"></script>
+    <script>new WOW().init()</script>
+</head>
+
+<body>
+    <div id="Container">
+        <div id="user-header" class="z-depth-2">
+            <div id="header-img">
+                <div id="header-user-icon">
+                    <img src="./img/bird.jpg" alt="">
+                </div>
+            </div>
+            <div id="header-info">
+                <div id="header-info-title">
+                    <!-- <h3>Mimori</h3> -->
+                </div>
+            </div>
+        </div>
+        <div id="release-aritcles-container">
+            <div id="release-articles-base" class="z-depth-2">
+
+            </div>
+        </div>
+        <div id="other-information-container" class="z-depth-2">
+
+        </div>
+    </div>
+</body>
+
+</html>

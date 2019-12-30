@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login</title>
+    <link rel="stylesheet" href="./materialize/css/materialize.min.css">
+    <link rel="stylesheet" href="./css/new-login.css">
+    <link href="./font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <script src="./js/jquery-3.4.1.min.js"></script>
+    <script src="./materialize/js/materialize.min.js"></script>
+
+    <script src="./js/login-script.js"></script>
+    <script src="./js/jquery.backstretch.min.js"></script>
+    <script src="./js/jquery.cookie.js"></script>
+    <script src="./js/jquery.base64.js"></script>
+    <script src="./materialize/js/materialize.min.js"></script>
+
+    <script type="text/javascript">
+        function set_cookie(uname, pwd) {
+            let remember = document.querySelector('#remember-checkbox').checked;
+
+            console.log(remember);
+            
+            if (remember) {
+                $.cookie('remember_user_name', uname, { expires: 30 });
+                $.cookie('remember_password', $.base64.encode(pwd), { expires: 30 });
+            } else {
+                $.cookie('remember_user_name', null);
+                $.cookie('remember_password', null);
+            }
+        }
+
+        function get_cookie() {
+            let username_in_cookie = $.cookie('remember_user_name');
+            let password_in_cookie = $.cookie('remember_password');
+
+            if(username_in_cookie && password_in_cookie) {
+                document.querySelector('#remember-checkbox').checked = true;
+            }
+
+            if(username_in_cookie) {
+                document.querySelector('#user-name').value = username_in_cookie;
+            }
+
+            if(password_in_cookie) {
+                document.querySelector('#password').value = password_in_cookie;
+            }
+        }
+
+
+        $(document).ready(function () {
+            get_cookie();
+            $("#loginButton").click(function () {
+
+                var user = $("#user-name").val();
+                var pass = $("#password").val();
+                if (user == "" || user == null || pass == null || pass == "") {
+                    if (user == "" || user == null) {
+                        Materialize.toast("Username can't be empty!", 5000);
+                        $("#user-name").attr("data-tooltip", "Username can't be empty!");
+                        //$("#erroruser").text("Username/Email can't be empty!");
+                    }
+                    if (pass == "" || pass == null) {
+                        Materialize.toast("Password can't be empty!", 5000);
+
+                        //$("#errorpass").text("Password can't be empty!");
+                    }
+                } else {
+                    var username = $("#user-name").val();
+                    var password = $("#password").val();
+                    $.post("./php/loginConfirm.php", { username: username, password: password }, function (data) {
+                        if (data == 1) {
+                            alert("Welcome!");
+                            set_cookie(user, pass);
+                            window.location.href = "main-page.html";
+                        }
+                        else {
+                            alert("Your username or your password may be wrong");
+                        }
+                    });
+                }
+            });
+
+            $("#register-link").click(function () {
+                window.location.href = "./regist.html";
+            });
+        });
+
+    </script>
+
+</head>
+
+<body>
+    <div id="login-form-container" class="z-depth-5">
+
+
+        <div id="icon-container">
+            <img src="./img/user-default-icon.png" class="responsive-img circle" alt="user-icon"
+                style="border: 5px solid white">
+        </div>
+
+
+        <div class="row">
+
+
+
+            <form class="col s12" action="loginConfirm.php" method="post">
+                <div class="row">
+                    <div class="input-field col s12">
+                        <i class="fa fa-user-circle-o prefix"></i>
+                        <input type="text" id="user-name" class="validate tooltipped" data-position="right"
+                            data-delay="50" data-tooltip="Please input username">
+                        <label for="user-name">User name</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <i class="fa fa-lock prefix"></i>
+                        <input type="password" id="password" class="validate tooltipped" data-position="right"
+                            data-delay="50" data-tooltip="Please input password">
+                        <label for="password">Password</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="switch center">
+                        <label>
+                            <div class="col s6">Remember me for one month</div>
+                            <div class="col s6">
+                                <input type="checkbox" id="remember-checkbox">
+                                <span class="lever"></span>
+                            </div>
+
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div>
+                        <a class="waves-effect waves-light btn col s12 cyan" value="Login" id="loginButton">Login</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div>
+
+                        <a class="waves-effect waves-light btn col s12 cyan" href="main-page.html">View as guest</a>
+
+                    </div>
+                    <div class="center-align col s12" style="margin-top: 8px; color: dimgray; cursor: pointer;">
+                        <span id="register-link">Register&nbsp;|</span>
+                        <span id="lost-password-link">&nbsp;Lost your password?</span>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

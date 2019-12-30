@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Editor</title>
+    <script>
+        window.addEventListener('pageshow', function (event) {
+            if (event.persisted) {
+                location.reload();
+            } else {
+                if (sessionStorage.getItem('refresh') === 'true') {
+                    location.reload();
+                }
+            }
+            sessionStorage.removeItem('refresh');
+        }); 
+    </script>
+    <link rel="stylesheet" type="text/css" href="./css/editor-style.css">
+    <link rel="stylesheet" type="text/css" href="./editor.md/css/editormd.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
+    <script src="./js/jquery-3.4.1.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <link href="./css/scrollbar-and-selection.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <div id="editor">
+    </div>
+    <script src="./editor.md//editormd.min.js"></script>
+    <script src="./js/editor-script.js"></script>
+</body>
+
+</html>
