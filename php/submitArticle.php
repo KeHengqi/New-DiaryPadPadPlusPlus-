@@ -1,6 +1,7 @@
 <?php
 session_start();
 $username = $_SESSION['loginUser'];
+// echo $_POST['title'];
 // echo 'debug';
 $connection = new mysqli("localhost","root","","diary_pad");
 
@@ -27,8 +28,10 @@ $aid = $aid + 1;
 
 $to_submit_article = $_POST['article'];
 $to_submit_article = addslashes($to_submit_article);
+$title = $_POST['title'];
+$title = addslashes($title);
 //echo $to_submit_article;
-$query = "INSERT INTO article VALUES ('$username', '$aid', '$to_submit_article')";
+$query = "INSERT INTO article VALUES ('$username', '$aid', '$to_submit_article', '$title')";
 
 $connection->query($query);
 // echo $to_submit_article;

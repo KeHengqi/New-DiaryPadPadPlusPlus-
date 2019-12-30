@@ -53,7 +53,14 @@ $(document).ready(function () {
                     return ;
                 }
                 let txt = editor.getMarkdown();
-                $.post("./php/submitArticle.php", { article: txt }, function (data) {
+                if(txt == '' || txt == null) {
+                    alert('Sorry, you cannot submit empty article!');
+                    return ;
+                }
+                let title = document.querySelector('#show-title').innerText;
+                console.log('asdfas:' + title);
+                
+                $.post("./php/submitArticle.php", { article: txt, title: title }, function (data) {
                     alert(data);
                     if (data == 1) {
                         alert("submit successfully!");
