@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script>
+        // var flag = 0;
+        //每次进入页面都强制刷新
+        window.addEventListener('pageshow', function (event) {
+            if (event.persisted) {
+                location.reload();
+            } else {
+                console.log('reload');
+
+                if (sessionStorage.getItem('refresh') === 'true') {
+                    location.reload();
+                }
+            }
+            sessionStorage.removeItem('refresh');
+        });
+
+
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Article</title>
+    <script src="./js/jquery-3.4.1.min.js"></script>
+    <script src="./materialize/js/materialize.min.js"></script>
+    <script src="./js/wow.min.js"></script>
+    <script src="./js/jquery.backstretch.min.js"></script>
+    <script>new WOW().init()</script>
+    <link href="./css/reading.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="./materialize/css/materialize.min.css">
+    <link href="./font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Noto+Serif+SC&display=swap" rel="stylesheet">
+    <link href="./css/scrollbar-and-selection.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="./animate.css/animate.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+TC|Noto+Serif+TC&display=swap" rel="stylesheet">
+    <script src="./js/marked.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var content = $("#content").text();
+            $.post('php/getArticle.php', { content: content }, function (data) {
+                if (data) {
+                    var c = marked(data);
+                    $(c).insertAfter("#article-author");
+                   // $("#content").html(c);
+                } else {
+                    $("#content").text("sorry, the article is not exist.")
+                }
+            })
+
+            $.post('./php/getAuthor.php',{},function (data) {
+                if(!data){
+                    $("#author").text("No name");
+                }
+                else{
+                    $("#author").text(data);
+                }
+            });
+
+            $(".brand-logo").click(function () {
+                $.post('php/iflogin.php', {}, function (data) {
+                    if (data == 1) {
+                        window.location.href = "main-page.html";
+                        window.alert("You have login!");
+                    } else {
+                        window.location.href = "login.html";
+                    }
+                })
+            });
+
+        });
+    </script>
+</head>
+
+<body>
+<ul id="ddown" class="dropdown-content">
+    <li>
+        <a href="./user-interface.html" style="color: #00b0ff;">My place</a>
+    </li>
+    <li>
+        <a id="logout-button" href="#" style="color: #00b0ff;">Logout</a>
+    </li>
+</ul>
+<nav>
+    <div class="nav-wrapper light-blue accent-3">
+        <a href="login.html" class="brand-logo">
+            <div style="background-image: url('./img/logo3.png'); background-size: contain; width: 50px; height: 50px; margin-left: 20px; margin-top: 7px;"></div>
+        </a>
+        <a href="#" data-activates="mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+        <ul id="nav" class="right hide-on-med-and-down">
+            <li><a href="main-page.html">Main page</a></li>
+            <li><a id="edit" href="./editor.html">Edit your article</a></li>
+            <li>
+                <a href="" class="dropdown-button" data-activates="ddown" id="dropdownButton">
+                        <span id="nav-user-icon">
+                            <img src="./img/bird.jpg" alt="" class="circle" style="width: 50%; height: 50%; vertical-align: middle; border: 0.2vh solid white;">
+                        </span>
+                    <i class="fa fa-sort-desc right"></i>
+                </a>
+            </li>
+        </ul>
+        <ul class="side-nav" id="mobile">
+            <div id="sidebar-icon" style="margin: 0 auto; margin-top: 5%;">
+                <img src="./img/bird.jpg" class="circle" alt="" style="width: 100%; height: 100%;">
+            </div>
+            <div class="valign-wrapper">
+                <span id="sidebar-username" class="center-align">ReTayE</span>
+            </div>
+            <li><a href="main-page.html">Main page</a></li>
+            <li><a id="edit" href="./editor.html">Edit your article</a></li>
+            <li><a href="./user-interface.html">My place</a></li>
+            <li><a id="sidebar-logout-button">Logout</a></li>
+        </ul>
+    </div>
+
+</nav>
+
+<div class="container">
+    <div id="content">
+        <div id="article-title">The title</div>
+        <div id="article-author">
+            <i class="fa fa-pencil-square-o" style="line-height: 50px;"></i>
+            <span id="author">
+                The author
+            </span>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<script src="./js/main-page.js"></script>
+<script>
+    let recommendation = document.getElementsByClassName('recommendation');
+    for (let i = 0; i < recommendation.length; i++) {
+        recommendation[i].classList.add('wow');
+        recommendation[i].classList.add('fadeInUp');
+    }
+    $(function () {
+        $('#top-pic').backstretch([
+            './img/top-pic.jpg'
+        ])
+    });
+</script>
+</body>
+
+</html>

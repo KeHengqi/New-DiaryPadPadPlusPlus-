@@ -1,0 +1,127 @@
+html {
+	width: 100%;
+	height: 100%;
+	margin: 0 auto;
+}
+
+body {
+	width: 100%;
+	height: 100%;
+}
+
+#loginPage {
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+
+#Login {
+	background-color: white;
+	width: 50%;
+	min-width: 300px;
+	max-width: 330px;
+	height: 700px;
+	opacity: 0.8;
+	align-content: center;
+	position: relative;
+	margin: 0 auto;
+	margin-top: 10px;
+	text-align: center;
+}
+
+.error{
+	color: red;
+	text-align: left;
+	margin-left: 10px;
+}
+
+#inputGroup {
+	margin-left: 5%;
+	margin-top: 30px;
+	max-width: 350px;
+	width: 90%;
+}
+
+#loginButton {
+	max-width: 300px;
+	width: 90%;
+}
+
+#fb-icon {
+	margin-left: 16px;
+	color: rgb(59, 89, 153);
+}
+
+#twitter-icon {
+	color: rgb(29, 161, 243);
+}
+
+#wechat-icon{
+	color: rgb(0,173,25);
+}
+#weibo-icon {
+	background-image: url("../img/weibo-icon.png");
+	width: 5px;
+	height: 5px;
+}
+
+#user-icon {
+	background-image: url("../img/user-default-icon.png");
+	background-size: 100%;
+	background-repeat: no-repeat;
+	background-origin: border-box;
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+	margin: 0 auto;
+	margin-top: 5%; 
+	position: relative;
+}
+
+#slogan{
+    font-family: 'Croissant One' , cursive;
+    font-size: 15px;
+    word-break: break-all;
+    line-height: 15px;
+}
+
+h1 {
+	text-align: center;
+    padding-top: 25px;
+    font-family: 'Alice', cursive;
+
+    font-size: 60px;
+}
+
+#input-form{
+	margin-bottom: 20px;
+	height: 32%;
+}
+
+#guest{
+	font-size: 12px;
+}
+
+a:hover{text-decoration: none;}
+#iconSet{
+	margin-top: 8%;
+}
+
+#authorMessage{
+	text-align: center;
+	height: 30px;
+}
+
+#registPart{
+	margin-top: 0px;
+	color: red;
+}
+.ErrorMess{
+	color: red;
+	background-color: white;
+}
+
+.WarningMess{
+	color: #ffcc00;
+	background-color: white;
+}

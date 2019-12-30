@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script>
+        // var flag = 0;
+        //每次进入页面都强制刷新
+        window.addEventListener('pageshow', function (event) {
+            if (event.persisted) {
+                location.reload();
+            } else {
+                console.log('reload');
+                
+                if (sessionStorage.getItem('refresh') === 'true') {
+                    location.reload();
+                }
+            }
+            sessionStorage.removeItem('refresh');
+        });    
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Mainpage</title>
+    <script src="./js/jquery-3.4.1.min.js"></script>
+    <script src="./materialize/js/materialize.min.js"></script>
+    <script src="./js/wow.min.js"></script>
+    <script src="./js/jquery.backstretch.min.js"></script>
+    <script src="./editor.md/editormd.min.js"></script>
+    <script>new WOW().init()</script>
+    <link href="./css/main-page.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="./materialize/css/materialize.min.css">
+    <link href="./font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Noto+Serif+SC&display=swap" rel="stylesheet">
+    <link href="./css/scrollbar-and-selection.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="./animate.css/animate.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+TC|Noto+Serif+TC&display=swap" rel="stylesheet">
+    <script src="./js/marked.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+
+            $.post('./php/iflogin.php',{},function (data) {
+                if(data==0){
+                    $(".login").show();
+                    $(".mine").hide();
+                    //$(".mine").attr("class","login");
+                    $(".logout").hide();
+                    //window.alert("It seems that you haven't login...");
+                }
+                else{
+                    $(".login").hide();
+                    $(".mine").show();
+                    $(".logout").show();
+                    //window.location.href="editor.html";
+                }
+            });
+
+            setTimeout(function () {
+                $(".recommendation").click(function () {
+                    var Artid = $(this).data("articleid");
+                    $.post('./php/getArtID.php',{artid:Artid},function (data) {
+                        if(data){
+                            window.location.href="reading.html";
+                        }
+                        else{
+                            window.alert("Sorry, we can't find the article!");
+                        }
+                    })
+                });
+
+                $(".edit").click(function () {
+                    $.post('./php/iflogin.php',{},function (data) {
+                        if(data==0){
+                            window.alert("It seems that you haven't login...");
+                        }
+                        else{
+                            window.location.href="editor.html";
+                        }
+                    });
+                });
+                $(".mine").click(function () {
+                    $.post('./php/iflogin.php',{},function (data) {
+                        if(data==0){
+                            window.alert("It seems that you haven't login...");
+                        }
+                        else{
+                            window.location.href="user-interface.html";
+                        }
+                    });
+                });
+
+                $("#user-interface-page").click(function () {
+                    $.post('./php/iflogin.php',{},function (data) {
+                        if(data==0){
+                            window.alert("It seems that you haven't login...");
+                        }
+                        else{
+                            window.location.href="user-interface.html";
+                        }
+                    });
+                });
+
+                $("#edit-page").click(function () {
+                    $.post('./php/iflogin.php',{},function (data) {
+                        if(data==0){
+                            window.alert("It seems that you haven't login...");
+                        }
+                        else{
+                            window.location.href="editor.html";
+                        }
+                    });
+                });
+                $(".logout-button").click(function () {
+                    $.post('./php/logout.php',{},function (data) {
+                        if(data==1){
+                            window.alert("You have logged out!");
+                            window.location.href="login.html";
+                        }
+                        else{
+                            window.alert("The system is like shit!");
+                        }
+                    });
+                });
+
+            });
+            },1000);
+
+    </script>
+</head>
+
+<body>
+<ul id="ddown" class="dropdown-content">
+    <li class="mine">
+        <a class="mine" style="color: #00b0ff;">My place</a>
+    </li>
+    <li class="login" hidden>
+        <a class="login" href="login.html">Login</a>
+    </li>
+    <li class="logout">
+        <a class="logout-button" href="#" style="color: #00b0ff;">Logout</a>
+    </li>
+</ul>
+<nav>
+    <div class="nav-wrapper light-blue accent-3">
+        <a class="brand-logo">
+            <div style="background-image: url('./img/logo3.png'); background-size: contain; width: 50px; height: 50px; margin-left: 20px; margin-top: 7px;"></div>
+        </a>
+        <a href="#" data-activates="mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+        <ul id="nav" class="right hide-on-med-and-down">
+            <li><a href="main-page.html">Main page</a></li>
+            <li><a class="edit">Edit your article</a></li>
+            <li>
+                <a href="" class="dropdown-button" data-activates="ddown" id="dropdownButton">
+                        <span id="nav-user-icon">
+                            <img src="./img/bird.jpg" alt="" class="circle" style="width: 50%; height: 50%; vertical-align: middle; border: 0.2vh solid white;">
+                        </span>
+                    <i class="fa fa-sort-desc right"></i>
+                </a>
+            </li>
+        </ul>
+        <ul class="side-nav" id="mobile">
+            <div id="sidebar-icon" style="margin: 0 auto; margin-top: 5%;">
+                <img src="./img/bird.jpg" class="circle" alt="" style="width: 100%; height: 100%;">
+            </div>
+            <div class="valign-wrapper">
+                <span id="sidebar-username" class="center-align">ReTayE</span>
+            </div>
+            <li><a href="main-page.html">Main page</a></li>
+            <li><a class="edit">Edit your article</a></li>
+            <li><a class="mine">My place</a></li>
+            <li><a class="login">Login</a> </li>
+            <li><a class="logout-button">Logout</a></li>
+        </ul>
+    </div>
+
+</nav>
+<div id="top-pic" style="background-image: url('./img/top-pic.jpg');">
+    <div id="top-title" class="center">
+        Memorize your highlight
+    </div>
+    <div id="down-arrow-container">
+        <i id="down-arrow" class="fa fa-arrow-down fa-3x" aria-hidden="true"></i>
+    </div>
+</div>
+<a id="back-to-top-button"></a>
+<section id="page-container">
+    <div id="recommendation-head">
+        <i class="fa fa-paper-plane fa-2x" style="color: grey;">
+            <span style="font-family: 'Noto Serif SC', serif;">&nbsp;Discovery</span>
+        </i>
+    </div>
+
+    <div class="tool">
+        <i id="edit-page" class="fa fa-pencil fa-3x" style="margin-left: 15px; margin-top: 20px;"></i>
+        <i id="user-interface-page" class="fa fa-sliders fa-3x" style="margin-left: 13px; margin-top: 10px;"></i>
+    </div>
+
+    <div id="Container">
+        <div class="recommendation hoverable" id="re1" data-articleid="">
+            <div style="background-image: url('./img/img01.jpg');" class="odd-recommendation-pic"></div>
+            <div class="odd-recommendation-para article">
+                <i class="fa fa-clock-o" style="color: grey;">
+                    <span class="article-view-and-comment">&nbsp;发布于23天前</span>
+                </i>
+                <br>
+                <span class="article-title">如何发布博文？</span>
+                <br>
+                <i class="fa fa-eye" style="color: grey;">
+                    <span class="article-view-and-comment">&nbsp;135&nbsp;&nbsp;&nbsp;</span>
+                </i>
+                <i class="fa fa-commenting-o" style="color: grey;">
+                    <span class="article-view-and-comment">&nbsp;32条评论&nbsp;&nbsp;&nbsp;</span>
+                </i>
+                <i class="article-subtitle fa fa-arrow-up" style="color: grey;">
+                    <span class="article-view-and-comment">&nbsp;置顶</span>
+                </i>
+                <br><br>
+                <p class="article-abstract">
+                    欢迎来到DiaryPad！这里将为你提供一个能记录自己生活与想法的平台...
+                </p>
+                <div style="background-image: url('./img/img03.jpg');" class="pic-right"></div>
+            </div>
+        </div>
+
+
+
+
+        <div class="recommendation hoverable" id="re2" data-articleid="">
+            <div class="eve-recommendation-para article">
+                <i class="fa fa-clock-o" style="color: grey;">
+                    <span class="article-view-and-comment">&nbsp;发布于14小时前</span>
+                </i>
+                <br>
+                <span class="article-title">写在面试之后</span>
+                <br>
+                <i class="article-subtitle fa fa-eye" style="color: grey;">
+                    <span class="article-view-and-comment">&nbsp;12&nbsp;&nbsp;&nbsp;</span>
+                </i>
+                <i class="article-subtitle fa fa-commenting-o" style="color: grey;">
+                    <span class="article-view-and-comment">&nbsp;2条评论</span>
+                </i>
+                <br><br>
+                <p class="article-abstract">之前，我详细地说了说我的人生第一场工作招聘面试，这里就来说一说这事的后续。</p>
+            </div>
+            <div style="background-image: url('./img/article-pic4.jpg');" class="eve-recommendation-pic"></div>
+        </div>
+
+
+        <div class="recommendation hoverable" id="re3" data-articleid="">
+            <div style="background-image: url('./img/article-pic2.jpg');" class="odd-recommendation-pic"></div>
+            <div class="odd-recommendation-para article">
+                <i class="fa fa-clock-o" style="color: grey;">
+                    <span class="article-view-and-comment">&nbsp;发布于5天前</span>
+                </i>
+                <br>
+                <span class="article-title">记人生第一次招聘面试</span>
+                <br>
+                <i class="fa fa-eye" style="color: grey;">
+                    <span class="article-view-and-comment">&nbsp;35&nbsp;&nbsp;&nbsp;</span>
+                </i>
+                <i class="fa fa-commenting-o" style="color: grey;">
+                    <span class="article-view-and-comment">&nbsp;10条评论</span>
+                </i>
+                <br><br>
+                <p class="article-abstract">
+                    今天参加了自己的第一场校招，也是自己人生的第一场工作招聘面试。一天下来，感觉还是收获良多的，特别是下午的人力面试，面试完后自己非常激动，于是便写下此文，冷静一下。
+                </p>
+            </div>
+        </div>
+
+        <div class="recommendation hoverable" id="re4" data-articleid="">
+            <div class="eve-recommendation-para article">
+                <i class="fa fa-clock-o" style="color: grey;">
+                    <span class="article-view-and-comment">&nbsp;发布于15天前</span>
+                </i>
+                <br>
+                <span class="article-title">《冰与火之歌》</span>
+                <br>
+                <i class="article-subtitle fa fa-eye" style="color: grey;">
+                    <span class="article-view-and-comment">&nbsp;50&nbsp;&nbsp;&nbsp;</span>
+                </i>
+                <i class="article-subtitle fa fa-commenting-o" style="color: grey;">
+                    <span class="article-view-and-comment">&nbsp;15条评论</span>
+                </i>
+                <br><br>
+                <p class="article-abstract">
+                    将近两个月看完《冰与火之歌》五卷：权力的游戏、列王的纷争、冰雪的风暴、群鸦的盛宴、魔龙的狂舞。拼命把溜出来的肠子塞回肚子里，乌鸦啄食着被钉城墙上蛆虫蠕动的头颅，动不动就调情啪啪啪还啊啊啊……
+                </p>
+            </div>
+            <div style="background-image: url('./img/article-pic3.jpg');" class="eve-recommendation-pic"></div>
+        </div>
+
+        <div class="recommendation hoverable" id="re5" data-articleid="">
+            <div style="background-image: url('./img/article-pic4.jpg');" class="odd-recommendation-pic"></div>
+            <div class="odd-recommendation-para article">
+                <i class="fa fa-clock-o" style="color: grey;">
+                    <span class="article-view-and-comment">&nbsp;发布于15天前</span>
+                </i>
+                <br>
+                <span class="article-title">突如其来的小壁虎</span>
+                <br>
+                <i class="fa fa-eye" style="color: grey;">
+                    <span class="article-view-and-comment">&nbsp;135&nbsp;&nbsp;&nbsp;</span>
+                </i>
+                <i class="fa fa-commenting-o" style="color: grey;">
+                    <span class="article-view-and-comment">&nbsp;32条评论</span>
+                </i>
+                <br><br>
+                <p class="article-abstract">
+                    今天早上🌚上午起床刷完牙洗完脸，一打开门，发现有个可爱的小东东以极其夸张的步伐远离我……噫，好久没见过小动物了～看到后，当然赶紧先上前看看，是只小壁虎，不到我的小拇指大。嘿嘿嘿，赶紧空出个瓶子抓住它。
+                </p>
+            </div>
+        </div>
+
+
+        <div class="recommendation hoverable" id="re6" data-articleid="">
+            <div class="eve-recommendation-para article">
+                <i class="fa fa-clock-o" style="color: grey;">
+                    <span class="article-view-and-comment">&nbsp;发布于18天前</span>
+                </i>
+                <br>
+                <span class="article-title">Win10高效使用技巧</span>
+                <br>
+                <i class="article-subtitle fa fa-eye" style="color: grey;">
+                    <span class="article-view-and-comment">&nbsp;139&nbsp;&nbsp;&nbsp;</span>
+                </i>
+                <i class="article-subtitle fa fa-commenting-o" style="color: grey;">
+                    <span class="article-view-and-comment">&nbsp;22条评论</span>
+                </i>
+                <br><br>
+                <p class="article-abstract">天下武功，唯快不破。说起Windows的使用技巧，不得不提键盘重度用户非常喜欢的快捷键。</p>
+            </div>
+            <div style="background-image: url('./img/article-pic5.jpg');" class="eve-recommendation-pic"></div>
+        </div>
+        <div class="bottom-block">
+        </div>
+    </div>
+
+</section>
+
+<script src="./js/main-page.js"></script>
+<script>
+    let recommendation = document.getElementsByClassName('recommendation');
+    for (let i = 0; i < recommendation.length; i++) {
+        recommendation[i].classList.add('wow');
+        recommendation[i].classList.add('fadeInUp');
+    }
+    $(function () {
+        $('#top-pic').backstretch([
+            './img/top-pic.jpg'
+        ])
+    });
+</script>
+</body>
+
+</html>

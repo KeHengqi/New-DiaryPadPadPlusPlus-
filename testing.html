@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css?family=Noto+Serif+SC&display=swap" rel="stylesheet">
+    <title>User Interface</title>
+    <script>
+        window.addEventListener('pageshow', function (event) {
+            if (event.persisted) {
+                location.reload();
+            } else {
+                if (sessionStorage.getItem('refresh') === 'true') {
+                    location.reload();
+                }
+            }
+            sessionStorage.removeItem('refresh');
+        });
+    </script>
+    <link rel="stylesheet" href="./css/user-interface-style.css">
+    <link rel="stylesheet" href="./materialize/css/materialize.min.css">
+    <link rel="stylesheet" href="./animate.css/animate.min.css">
+    <link rel="stylesheet" href="./css/scrollbar-and-selection.css">
+    <link rel="stylesheet" href="./font-awesome-4.7.0/css/font-awesome.min.css">
+    <script src="./js/jquery-3.4.1.min.js"></script>
+    <script src="./materialize/js/materialize.min.js"></script>
+    <script src="./js/wow.min.js"></script>
+    <script>new WOW().init()</script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#add").click(function () {
+               var ht = "<br><div class=\"release-articles-base z-depth-2\" id=\"release-article-" ;
+               var i = "1";
+               var ml = "\" data-releasearticleid=\"\"></div>"
+                var o = Math.random()*10;
+               for(;i<o;i++){
+                   var htm = ht+i+ml;
+                   $(htm).insertAfter("#release-aritcles-container");
+               }
+            });
+        });
+    </script>
+</head>
+<body>
+    <input type="button" id="add" value="add">
+    <div id="release-aritcles-container">
+
+    </div>
+</body>
+</html>

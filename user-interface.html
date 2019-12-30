@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css?family=Noto+Serif+SC&display=swap" rel="stylesheet">
+    <title>User Interface</title>
+    <script>
+        window.addEventListener('pageshow', function (event) {
+            if (event.persisted) {
+                location.reload();
+            } else {
+                if (sessionStorage.getItem('refresh') === 'true') {
+                    location.reload();
+                }
+            }
+            sessionStorage.removeItem('refresh');
+        });
+    </script>
+    <link rel="stylesheet" href="./css/user-interface-style.css">
+    <link rel="stylesheet" href="./materialize/css/materialize.min.css">
+    <link rel="stylesheet" href="./animate.css/animate.min.css">
+    <link rel="stylesheet" href="./css/scrollbar-and-selection.css">
+    <link rel="stylesheet" href="./font-awesome-4.7.0/css/font-awesome.min.css">
+    <script src="./js/jquery-3.4.1.min.js"></script>
+    <script src="./materialize/js/materialize.min.js"></script>
+    <script src="./js/wow.min.js"></script>
+    <script>new WOW().init()</script>
+    <script src="./js/marked.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            let flag = 0;
+            $.post('./php/getInformation.php',{},function (data) {
+                $(".user-name").text(data);
+            });
+
+            $.post('./php/getArticleNum.php',{},function (data) {
+                var i = 1;
+                var ht = "<div class=\"release-articles-base z-depth-2\" id=\"release-article-"
+                var m = "\" data-releasearticleid=\""
+                var l = "\"></div>"
+                var number = data;
+               if(data>0){
+                   flag=1;
+                   for(;i<=data;i++){
+                       var htm = ht + i + m + i + l;
+                       if(i==1) {
+                           $("#release-aritcles-container").html(htm);
+                       }
+                       else{
+                           var after = "#release-article-"+(i-1);
+                           $(htm).insertBefore(after);
+                       }
+                      // $(htm).insertAfter("#release-aritcles-container");
+                   }
+                   $.post('./php/getUserArticle.php',{},function (data) {
+                       //window.alert(data);
+                       var i;
+                       var half = "#release-article-";
+                       for(i=number;i>=1;i--){
+                           //alert(data["CONTENT"]);
+                           var whole = half+i;
+                           var ml = marked(data[i].CONTENT);
+                          // var ht = "<p>"+data[i].CONTENT+"</p>";
+                           $(whole).addClass("Canclick");
+                           $(whole).data('releasearticleid',data[i].AID);
+                           //window.alert($(whole).data('releasearticleid'));
+                           $(whole).html(ml);
+                       }
+                   },'json');
+               }
+               else{
+                   var tml = ht+i+m+i+l;
+                   $("#release-aritcles-container").html(tml);
+                   //$(tml).insertAfter("#release-aritcles-container");
+                  // $("<h4>It seems that you don't have article, why not writing something?</h4>").insertAfter("#release-article-1");
+                   $("#release-article-1").html("<p href='editor'>It seems that you don't have article, why not click here to write something?</p>");
+               }
+            });
+
+            setTimeout(function () {
+                $(".release-articles-base").click(function () {
+                    if(flag==1) {
+                        //window.alert("you click the article");
+                        //window.alert($(this).data('releasearticleid'));
+                        var aid = $(this).data('releasearticleid');
+                        aid = aid - 1;
+                        $.post('./php/getArtID.php', {artid: aid}, function (data) {
+                            if (data) {
+                                window.location.href = "reading.html";
+                            } else {
+                                window.alert("Sorry, we can't find the article!");
+                            }
+                        });
+                    }
+                    else{
+                        window.location.href="editor.html";
+                    }
+                });
+
+                $(".logout-button").click(function () {
+                    $.post("./php/logout.php",{},function (data) {
+                        if(data==1){
+                            alert("You have logged out!");
+                            window.location.href="main-page.html";
+                        }
+                        else{
+                            alert("You are not log out!");
+                        }
+                    })
+                });
+            },200);
+
+        });
+    </script>
+</head>
+
+<body>
+<ul id="ddown" class="dropdown-content">
+    <li>
+        <a href="./user-interface.html" style="color: #00b0ff;">My place</a>
+    </li>
+    <li>
+        <a class="logout-button" href="#" style="color: #00b0ff;">Logout</a>
+    </li>
+</ul>
+<nav>
+    <div class="nav-wrapper light-blue accent-3">
+        <a href="login.html" class="brand-logo">
+            <div style="background-image: url('./img/logo3.png'); background-size: contain; width: 50px; height: 50px; margin-left: 20px; margin-top: 7px;"></div>
+        </a>
+        <a href="#" data-activates="mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+        <ul id="nav" class="right hide-on-med-and-down">
+            <li><a href="main-page.html">Main page</a></li>
+            <li><a class="edit" href="./editor.html">Edit your article</a></li>
+            <li>
+                <a href="" class="dropdown-button" data-activates="ddown" id="dropdownButton">
+                        <span id="nav-user-icon">
+                            <img src="./img/bird.jpg" alt="" class="circle" style="width: 50%; height: 50%; vertical-align: middle; border: 0.2vh solid white;">
+                        </span>
+                    <i class="fa fa-sort-desc right"></i>
+                </a>
+            </li>
+        </ul>
+        <ul class="side-nav" id="mobile">
+            <div id="sidebar-icon" style="margin: 0 auto; margin-top: 5%;">
+                <img src="./img/bird.jpg" class="circle" alt="" style="width: 100%; height: 100%;">
+            </div>
+            <div class="valign-wrapper">
+                <span id="sidebar-username" class="center-align">ReTayE</span>
+            </div>
+            <li><a href="main-page.html">Main page</a></li>
+            <li><a class="edit" href="./editor.html">Edit your article</a></li>
+            <li><a href="./user-interface.html">My place</a></li>
+            <li><a class="logout-button">Logout</a></li>
+        </ul>
+    </div>
+
+</nav>
+
+<div id="Container">
+    <div id="user-header" class="z-depth-2">
+        <div id="header-img">
+            <!--这个是用来放用户头像的-->
+            <div id="header-user-icon">
+                <img src="./img/bird.jpg" alt="">
+            </div>
+        </div>
+        <div id="header-info">
+            <div id="header-info-title">
+                <!--下面这个span是用来放用户名的-->
+                <span class="user-name">ReTayE</span>
+
+                <!--用户个人信息标签-->
+                <span class="tags">
+                        <span class="chip">
+                            <i class="fa fa-tag"></i>
+                            SZU
+                        </span>
+                        <span class="chip">
+                            <i class="fa fa-tag"></i>
+                            Computer Science
+                        </span>
+                        <span class="chip">
+                            <i class="fa fa-tag"></i>
+                            ICPC
+                        </span>
+                        <span class="chip">
+                            <i class="fa fa-tag"></i>
+                            Bilibili
+                        </span>
+                    </span>
+                <!--用户个人信息标签-->
+
+            </div>
+        </div>
+    </div>
+
+    <!--用户已发布的文章-->
+    <div id="release-aritcles-container">
+        <!--data-releasearticleid对应的是文章在数据库中的编号.id是为了方便js获取元素而存在的-->
+        <!--文章内容直接放在每一个div中的-->
+        <div class="release-articles-base z-depth-2" id="release-article-1" data-releasearticleid="">
+        </div>
+    </div>
+
+</div>
+</body>
+
+</html>
