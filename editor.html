@@ -18,17 +18,44 @@
             sessionStorage.removeItem('refresh');
         }); 
     </script>
-    <link rel="stylesheet" type="text/css" href="./css/editor-style.css">
     <link rel="stylesheet" type="text/css" href="./editor.md/css/editormd.min.css">
     <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./materialize/css/materialize.min.css">
     <script src="./js/jquery-3.4.1.min.js"></script>
-    <script src="./js/bootstrap.min.js"></script>
+    <script src="./materialize/js/materialize.min.js"></script>
+    <!-- <script src="./js/jquery.backstretch.min.js"></script> -->
     <link href="./css/scrollbar-and-selection.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="./css/editor-style.css">
+    <script>
+        $(document).ready(function () {
+            $('.modal').modal();
+            
+            $('#confirm-button').click( function () {
+                let Title = document.querySelector('#title-box').value;
+                // console.log(Title);
+                $('#show-title').text(Title);
+            });
+        });
+    </script>
 </head>
 
 <body>
+
+    
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+            <h4 style="font-weight: 200;">Please input your new article's title</h4>
+            <input type="text" placeholder="Your title" id="title-box">
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="waves-effect waves-green btn-flat modal-close" id="confirm-button">Confirm</a>
+        </div>
+    </div>
+
+
     <div id="editor">
     </div>
+    
     <script src="./editor.md/editormd.min.js"></script>
     <script src="./js/editor-script.js"></script>
 </body>

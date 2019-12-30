@@ -16,14 +16,16 @@ $(document).ready(function () {
         gotoLine: true,
         placeholder: 'Enjoy Writing in DiaryPad...',
         toolbarIcons: function () {
-            return ['comeBack','undo', 'redo', '|', 'bold', 'italic', 'del', 'hr', 'quote', '|', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', '|', 'list-ul', 'list-ol', '|', 'fullscreen', 'info', 'watch', 'goto-line', '|', 'emoji', 'image', 'link', 'code-block', 'table', '|', 'dayAndNight', 'draft', 'summit','userIcon'];
+            return ['comeBack','undo', 'redo', 'bold', 'italic', 'del', 'hr', 'quote', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'list-ul', 'list-ol', 'info', 'watch', 'goto-line', 'emoji', 'image', 'link', 'code-block', 'table', '||','showTitle','dayAndNight','editTitle', 'summit'];
         },
         toolbarIconTexts: {
-            draft: '保存草稿',
-            summit: '发布文章',
-            dayAndNight: '切换日间/夜间模式',
-            comeBack: "<i class='fa fa-arrow-left'></i><span>&nbsp;&nbsp;回到主页</span>",
-            userIcon: userIconTag
+            summit: 'Submit blog',
+            dayAndNight: 'Day/night mode',
+            comeBack: "<i class='fa fa-arrow-left'></i><span>&nbsp;&nbsp;back to main page</span>",
+            editTitle: "<span class='modal-trigger' href='#modal1' id='edit-title-button'>Edit title</span>",
+            // titleIntput: "<span>Title&nbsp;:&emsp;</span><input type='text' style=''>",
+            userIcon: userIconTag,
+            showTitle: "<span id='show-title'></span>"
         },
         toolbarHandlers: {
             dayAndNight: function () {
@@ -45,7 +47,11 @@ $(document).ready(function () {
                 window.location.href = './main-page.html'
             },
             summit: function () {
-                // alert('dddddddlakdsjf');
+                let articleTitle = document.querySelector('#title-box').value;
+                if(articleTitle == "" || articleTitle === null) {
+                    alert('The title cannot be empty! Click the \"Edit title\" button to input your article title.');
+                    return ;
+                }
                 let txt = editor.getMarkdown();
                 $.post("./php/submitArticle.php", { article: txt }, function (data) {
                     alert(data);
@@ -55,6 +61,9 @@ $(document).ready(function () {
                         alert("sumit failed!");
                     }
                 });
+            },
+            editTitle: function () {
+                $('#modal1').modal('open');
             }
         }
     });
