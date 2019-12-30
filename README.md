@@ -1,2 +1,2 @@
-# New-DiaryPadPadPlusPlus-
-👴✍🤮了
+# DiaryPadPlusPlus
+IA Big Project

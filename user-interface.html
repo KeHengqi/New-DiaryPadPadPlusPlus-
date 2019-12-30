@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://fonts.googleapis.com/css?family=Noto+Serif+SC&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <title>User Interface</title>
     <script>
         window.addEventListener('pageshow', function (event) {
@@ -24,13 +25,16 @@
     <link rel="stylesheet" href="./animate.css/animate.min.css">
     <link rel="stylesheet" href="./css/scrollbar-and-selection.css">
     <link rel="stylesheet" href="./font-awesome-4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="./js/jquery-3.4.1.min.js"></script>
     <script src="./materialize/js/materialize.min.js"></script>
     <script src="./js/wow.min.js"></script>
     <script>new WOW().init()</script>
     <script src="./js/marked.min.js"></script>
+    <script>$(".dropdown-button").dropdown();</script>
     <script type="text/javascript">
         $(document).ready(function () {
+            $('.button-collapse').sideNav();
             let flag = 0;
             $.post('./php/getInformation.php',{},function (data) {
                 $(".user-name").text(data);
