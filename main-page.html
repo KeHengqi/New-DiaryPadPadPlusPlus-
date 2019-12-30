@@ -9,7 +9,8 @@
             if (event.persisted) {
                 location.reload();
             } else {
-                // console.log('reload');
+                console.log('reload');
+                
                 if (sessionStorage.getItem('refresh') === 'true') {
                     location.reload();
                 }
@@ -35,6 +36,7 @@
     <link rel="stylesheet" href="./animate.css/animate.min.css">
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+TC|Noto+Serif+TC&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="./js/marked.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
@@ -54,6 +56,11 @@
                     $(".logout").show();
                     //window.location.href="editor.html";
                 }
+            });
+
+            $.post('./php/getInformation.php',{},function (data) {
+               // $(".user-name").text(data);
+                $("#sidebar-username").text(data);
             });
 
             setTimeout(function () {
@@ -169,13 +176,14 @@
             <li><a href="main-page.html">Main page</a></li>
             <li><a class="edit">Edit your article</a></li>
             <li><a class="mine">My place</a></li>
-            <li><a class="login">Login</a> </li>
-            <li><a class="logout-button">Logout</a></li>
+            <li><a class="login" href="login.html">Login</a> </li>
+            <li class="logout"><a class="logout-button">Logout</a></li>
         </ul>
     </div>
 
 </nav>
 <div id="top-pic" style="background-image: url('./img/top-pic.jpg');">
+
     <div id="top-title" class="center">
         Memorize your highlight
     </div>

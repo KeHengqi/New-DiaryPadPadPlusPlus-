@@ -31,6 +31,7 @@ $artid = $_POST['artid'];
         $article = $result->fetch_assoc();
         $_SESSION['article'] = $article['CONTENT'];
         $_SESSION['author']=$article['UNAME'];
+        $_SESSION['title'] = $article['TITLE'];
         $data = $article['CONTENT'];
     }
     echo $data;

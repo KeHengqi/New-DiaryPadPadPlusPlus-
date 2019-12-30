@@ -4,7 +4,7 @@ if(isset($_SESSION['loginUser'])){
     $status = $_SESSION['loginUser'];
 }
 else{
-    $status = 0;
+    $status = "Guest";
 }
 echo $status;
 ?>
