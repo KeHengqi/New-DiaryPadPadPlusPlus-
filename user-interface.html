@@ -47,57 +47,111 @@
                 var m = "\" data-releasearticleid=\""
                 var l = "\"><div class=\"title\"></div><div class=\"content\"></div></div>"
                 var number = data;
-               if(data>0){
-                   flag=1;
-                   for(;i<=data;i++){
-                       var htm = ht + i + m + i + l;
-                       if(i==1) {
-                           $("#release-aritcles-container").html(htm);
-                       }
-                       else{
-                           var after = "#release-article-"+(i-1);
-                           $(htm).insertBefore(after);
-                       }
-                      // $(htm).insertAfter("#release-aritcles-container");
-                   }
-                   $.post('./php/getUserArticle.php',{},function (data) {
-                       //window.alert(data);
-                       var i;
-                       var half = "#release-article-";
-                       for(i=number;i>=1;i--){
-                           //alert(data["CONTENT"]);
-                           var whole = half+i;
-                           var ml = marked(data[i].CONTENT);
-                          // var ht = "<p>"+data[i].CONTENT+"</p>";
-                           $(whole).addClass("Canclick");
-                           $(whole).data('releasearticleid',data[i].AID);
-                           //window.alert($(whole).data('releasearticleid'));
-                           var ti = whole+" .title";
-                           if(data[i].TITLE!="") {
-                               $(ti).html("<h4>"+data[i].TITLE+"</h4>");
-                           }
-                           else{
-                               $(ti).html("<h4>No Title</h4>");
-                           }
-                           var co = whole+" .content";
-                           $(co).html(ml);
-                           var tent = $(co).text();
-                           var real = tent.substr(0,200);
-                           if(tent.length>200){
-                               real+="&nbsp;&nbsp;&nbsp;. . . . . .";
-                           }
-                           $(co).html("<p>"+real+"</p>");
-                           ///$('#ddd .title')          //useful thing!!!!!!!1
-                       }
-                   },'json');
-               }
-               else{
-                   var tml = ht+i+m+i+l;
-                   $("#release-aritcles-container").html(tml);
-                   //$(tml).insertAfter("#release-aritcles-container");
-                  // $("<h4>It seems that you don't have article, why not writing something?</h4>").insertAfter("#release-article-1");
-                   $("#release-article-1").html("<p href='editor'>It seems that you don't have article, why not click here to write something?</p>");
-               }
+                if(data>0){
+                    flag=1;
+                    for(;i<=data;i++){
+                        var htm = ht + i + m + i + l;
+                        if(i==1) {
+                            $("#release-aritcles-container").html(htm);
+                        }
+                        else{
+                            var after = "#release-article-"+(i-1);
+                            $(htm).insertBefore(after);
+                        }
+                        // $(htm).insertAfter("#release-aritcles-container");
+                    }
+                    // The length of words
+                    let words;
+                    if($(window).width()<871&&$(window).width()>=551){
+                        words = 100;
+                    }
+                    else if($(window).width()<551){
+                        words = 50;
+                    }
+                    else{
+                        words = 200;
+                    }
+
+                    $(window).resize(function () {
+                        if($(window).width()<871&&$(window).width()>=551){
+                            words = 100;
+                        }
+                        else if($(window).width()<551){
+                            words = 50;
+                        }
+                        else{
+                            words = 200;
+                        }
+                        $.post('./php/getUserArticle.php',{},function (data) {
+                            //window.alert(data);
+                            var i;
+                            var half = "#release-article-";
+                            for(i=number;i>=1;i--){
+                                //alert(data["CONTENT"]);
+                                var whole = half+i;
+                                var ml = marked(data[i].CONTENT);
+                                // var ht = "<p>"+data[i].CONTENT+"</p>";
+                                $(whole).addClass("Canclick");
+                                $(whole).data('releasearticleid',data[i].AID);
+                                //window.alert($(whole).data('releasearticleid'));
+                                var ti = whole+" .title";
+                                if(data[i].TITLE!="") {
+                                    $(ti).html("<h4>"+data[i].TITLE+"</h4>");
+                                }
+                                else{
+                                    $(ti).html("<h4>No Title</h4>");
+                                }
+                                var co = whole+" .content";
+                                $(co).html(ml);
+                                var tent = $(co).text();
+                                var real = tent.substr(0,words);
+                                if(tent.length>words){
+                                    real+="&nbsp;&nbsp;&nbsp;. . . . . .";
+                                }
+                                $(co).html("<p>"+real+"</p>");
+                                ///$('#ddd .title')          //useful thing!!!!!!!1
+                            }
+                        },'json');
+                    });
+
+                    $.post('./php/getUserArticle.php',{},function (data) {
+                        //window.alert(data);
+                        var i;
+                        var half = "#release-article-";
+                        for(i=number;i>=1;i--){
+                            //alert(data["CONTENT"]);
+                            var whole = half+i;
+                            var ml = marked(data[i].CONTENT);
+                            // var ht = "<p>"+data[i].CONTENT+"</p>";
+                            $(whole).addClass("Canclick");
+                            $(whole).data('releasearticleid',data[i].AID);
+                            //window.alert($(whole).data('releasearticleid'));
+                            var ti = whole+" .title";
+                            if(data[i].TITLE!="") {
+                                $(ti).html("<h4>"+data[i].TITLE+"</h4>");
+                            }
+                            else{
+                                $(ti).html("<h4>No Title</h4>");
+                            }
+                            var co = whole+" .content";
+                            $(co).html(ml);
+                            var tent = $(co).text();
+                            var real = tent.substr(0,words);
+                            if(tent.length>words){
+                                real+="&nbsp;&nbsp;&nbsp;. . . . . .";
+                            }
+                            $(co).html("<p>"+real+"</p>");
+                            ///$('#ddd .title')          //useful thing!!!!!!!1
+                        }
+                    },'json');
+                }
+                else{
+                    var tml = ht+i+m+i+l;
+                    $("#release-aritcles-container").html(tml);
+                    //$(tml).insertAfter("#release-aritcles-container");
+                    // $("<h4>It seems that you don't have article, why not writing something?</h4>").insertAfter("#release-article-1");
+                    $("#release-article-1").html("<p href='editor'>It seems that you don't have article, why not click here to write something?</p>");
+                }
             });
 
             setTimeout(function () {

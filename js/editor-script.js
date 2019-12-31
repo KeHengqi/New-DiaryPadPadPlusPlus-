@@ -61,7 +61,7 @@ $(document).ready(function () {
                 // console.log('asdfas:' + title);
                 
                 $.post("./php/submitArticle.php", { article: txt, title: title }, function (data) {
-                    alert(data);
+                   // alert(data);
                     if (data == 1) {
                         alert("submit successfully!");
                     } else {
