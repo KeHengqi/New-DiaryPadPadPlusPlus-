@@ -73,11 +73,14 @@
                     }
 
                     $(window).resize(function () {
-                        if($(window).width()<871&&$(window).width()>=551){
+                        if($(window).width()<871&&$(window).width()>=662){
                             words = 100;
                         }
-                        else if($(window).width()<551){
+                        else if($(window).width()<662&&$(window).width()>=436){
                             words = 50;
+                        }
+                        else if($(window).width()<436){
+                            words = 0;
                         }
                         else{
                             words = 200;
@@ -96,7 +99,12 @@
                                 //window.alert($(whole).data('releasearticleid'));
                                 var ti = whole+" .title";
                                 if(data[i].TITLE!="") {
-                                    $(ti).html("<h4>"+data[i].TITLE+"</h4>");
+                                    if(words>50) {
+                                        $(ti).html("<h4>" + data[i].TITLE + "</h4>");
+                                    }
+                                    else{
+                                        $(ti).html("<h5>" + data[i].TITLE + "</h5>");
+                                    }
                                 }
                                 else{
                                     $(ti).html("<h4>No Title</h4>");

@@ -41,6 +41,11 @@
     <script>$(".dropdown-button").dropdown();</script>
     <script type="text/javascript">
         $(document).ready(function () {
+
+            $.post("./php/getInformation.php",{},function (data) {
+                $("#sidebar-username").text(data);
+            });
+
             $('.button-collapse').sideNav();
             $.post('./php/iflogin.php',{},function (data) {
                 if(data==0){
@@ -48,12 +53,18 @@
                     $(".mine").hide();
                     //$(".mine").attr("class","login");
                     $(".logout").hide();
+                    $("#sidebar-edit").hide();
+                    $("#sidebar-logout-button").hide();
+                    $(".edit").hide();
                     //window.alert("It seems that you haven't login...");
                 }
                 else{
                     $(".login").hide();
                     $(".mine").show();
                     $(".logout").show();
+                    $("#sidebar-edit").show();
+                    $("#sidebar-logout-button").hide();
+                    $(".edit").show();
                     //window.location.href="editor.html";
                 }
             });
@@ -126,7 +137,7 @@
         <a href="#" data-activates="mobile" class="button-collapse"><i class="material-icons">menu</i></a>
         <ul id="nav" class="right hide-on-med-and-down">
             <li><a href="main-page.html">Main page</a></li>
-            <li><a id="edit" href="./editor.html">Edit your article</a></li>
+            <li class="edit"><a class="edit" href="./editor.html">Edit your article</a></li>
             <li>
                 <a href="" class="dropdown-button" data-activates="ddown" id="dropdownButton">
                         <span id="nav-user-icon">
@@ -144,7 +155,7 @@
                 <span id="sidebar-username" class="center-align">ReTayE</span>
             </div>
             <li><a href="main-page.html">Main page</a></li>
-            <li><a id="edit" href="./editor.html">Edit your article</a></li>
+            <li><a id="sidebar-edit" href="./editor.html">Edit your article</a></li>
             <li class="mine"><a href="./user-interface.html">My place</a></li>
             <li><a class="login">Login</a> </li>
             <li><a id="sidebar-logout-button">Logout</a></li>

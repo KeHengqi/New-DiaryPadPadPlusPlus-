@@ -30,30 +30,30 @@
                 $.cookie('remember_user_name', uname, { expires: 30 });
                 $.cookie('remember_password', $.base64.encode(pwd), { expires: 30 });
             } else {
-                $.cookie('remember_user_name', null);
-                $.cookie('remember_password', null);
+                //$.cookie('remember_user_name', "");
+                $.cookie('remember_password', "");
             }
         }
 
         function get_cookie() {
             let username_in_cookie = $.cookie('remember_user_name');
             console.log(username_in_cookie);
-            
+
             // username_in_cookie = $.base64.decode(username_in_cookie);
             let password_in_cookie = $.cookie('remember_password');
             console.log(password_in_cookie);
-            
+
             // password_in_cookie = $.base64.decode(password_in_cookie);
 
-            if (username_in_cookie != null && password_in_cookie != null && username_in_cookie != undefined && password_in_cookie != undefined) {
+            if (username_in_cookie != "" && password_in_cookie != "" && username_in_cookie != undefined && password_in_cookie != undefined) {
                 document.querySelector('#remember-checkbox').checked = true;
             }
 
-            if (username_in_cookie != null && username_in_cookie != undefined) {
+            if (username_in_cookie != "" && username_in_cookie != undefined) {
                 document.querySelector('#user-name').value = username_in_cookie;
             }
 
-            if (password_in_cookie != null && password_in_cookie != undefined) {
+            if (password_in_cookie != "" && password_in_cookie != undefined) {
                 password_in_cookie = $.base64.decode(password_in_cookie);
                 document.querySelector('#password').value = password_in_cookie;
             }
