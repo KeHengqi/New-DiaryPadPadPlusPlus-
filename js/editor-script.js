@@ -58,7 +58,7 @@ $(document).ready(function () {
                     return ;
                 }
                 let title = document.querySelector('#show-title').innerText;
-                console.log('asdfas:' + title);
+                // console.log('asdfas:' + title);
                 
                 $.post("./php/submitArticle.php", { article: txt, title: title }, function (data) {
                     alert(data);
@@ -74,6 +74,8 @@ $(document).ready(function () {
             }
         }
     });
+
+    $('.modal').modal('open');
 
     editormd.katexURL = {
         js: './katex/katex.min',
@@ -101,4 +103,6 @@ $(document).ready(function () {
         let preview_area_theme = $(this).find('option:selected').text();
         editor.setPreviewTheme(preview_area_theme);
     });
+
+    
 });

@@ -17,7 +17,7 @@
     <script src="./js/jquery.cookie.js"></script>
     <script src="./js/jquery.base64.js"></script>
     <script src="./materialize/js/materialize.min.js"></script>
-    
+
 
 
     <script type="text/javascript">
@@ -25,7 +25,7 @@
             let remember = document.querySelector('#remember-checkbox').checked;
 
             console.log(remember);
-            
+
             if (remember) {
                 $.cookie('remember_user_name', uname, { expires: 30 });
                 $.cookie('remember_password', $.base64.encode(pwd), { expires: 30 });
@@ -37,17 +37,24 @@
 
         function get_cookie() {
             let username_in_cookie = $.cookie('remember_user_name');
+            console.log(username_in_cookie);
+            
+            // username_in_cookie = $.base64.decode(username_in_cookie);
             let password_in_cookie = $.cookie('remember_password');
+            console.log(password_in_cookie);
+            
+            // password_in_cookie = $.base64.decode(password_in_cookie);
 
-            if(username_in_cookie && password_in_cookie) {
+            if (username_in_cookie != null && password_in_cookie != null && username_in_cookie != undefined && password_in_cookie != undefined) {
                 document.querySelector('#remember-checkbox').checked = true;
             }
 
-            if(username_in_cookie) {
+            if (username_in_cookie != null && username_in_cookie != undefined) {
                 document.querySelector('#user-name').value = username_in_cookie;
             }
 
-            if(password_in_cookie) {
+            if (password_in_cookie != null && password_in_cookie != undefined) {
+                password_in_cookie = $.base64.decode(password_in_cookie);
                 document.querySelector('#password').value = password_in_cookie;
             }
         }
@@ -56,20 +63,20 @@
         $(document).ready(function () {
             get_cookie();
             let time;
-            if($(window).width()<=996){
-                time=2000;
+            if ($(window).width() <= 996) {
+                time = 2000;
             }
-            else{
-                time=5000;
+            else {
+                time = 5000;
             }
 
 
             $(window).resize(function () {
-                if($(window).width()<=996){
-                    time=2000;
+                if ($(window).width() <= 996) {
+                    time = 2000;
                 }
-                else{
-                    time=5000;
+                else {
+                    time = 5000;
                 }
             });
             $("#loginButton").click(function () {
@@ -78,12 +85,12 @@
                 var pass = $("#password").val();
                 if (user == "" || user == null || pass == null || pass == "") {
                     if (user == "" || user == null) {
-                        Materialize.toast("Username can't be empty!", time,"ErrorMess");
+                        Materialize.toast("Username can't be empty!", time, "ErrorMess");
                         $("#user-name").attr("data-tooltip", "Username can't be empty!");
                         //$("#erroruser").text("Username/Email can't be empty!");
                     }
                     if (pass == "" || pass == null) {
-                        Materialize.toast("Password can't be empty!", time,"ErrorMess");
+                        Materialize.toast("Password can't be empty!", time, "ErrorMess");
 
                         //$("#errorpass").text("Password can't be empty!");
                     }
@@ -92,29 +99,29 @@
                     var password = $("#password").val();
                     $.post("./php/loginConfirm.php", { username: username, password: password }, function (data) {
                         if (data == 1) {
-                            alert("Welcome!");
                             set_cookie(user, pass);
+                            alert("Welcome!");
                             window.location.href = "main-page.html";
                         }
                         else {
                             $("#password").removeClass("valid");
                             $("#password").removeClass("validate");
                             $("#password").addClass("invalid");
-                            $("#password").attr("type","text");
-                            Materialize.toast("Your password is wrong, please check!",time,"ErrorMess");
+                            $("#password").attr("type", "text");
+                            Materialize.toast("Your password is wrong, please check!", time, "ErrorMess");
                         }
                     });
                 }
             });
 
             $("#password").focus(function () {
-               $("#password").attr("type","password");
+                $("#password").attr("type", "password");
             });
 
             $("#user-name").blur(function () {
                 var username = $("#user-name").val();
-                if(username!=""||username!=NULL) {
-                    $.post("./php/findName", {username: username}, function (data) {
+                if (username != "" || username != null) {
+                    $.post("./php/findName", { username: username }, function (data) {
                         if (data == 1) {
                             $("#user-name").removeClass("invalid");
                             $("#user-name").addClass("valid");
@@ -161,8 +168,8 @@
                     </div>
                     <div class="input-field col s12">
                         <i class="fa fa-lock prefix"></i>
-                        <input type="password" id="password" class=" tooltipped" data-position="right"
-                            data-delay="50" data-tooltip="Please input password">
+                        <input type="password" id="password" class=" tooltipped" data-position="right" data-delay="50"
+                            data-tooltip="Please input password">
                         <label for="password">Password</label>
                     </div>
                 </div>
